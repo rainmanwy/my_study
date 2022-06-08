@@ -25,7 +25,18 @@ public class CustomerServiceTest {
     @Test
     public void getCustomerListTest() {
         List<Customer> customerList = this.customerService.getCustomerList(null);
+        System.out.println(customerList);
         Assert.assertEquals(2, customerList.size());
+
+        // name
+        customerList = this.customerService.getCustomerList("er1");
+        System.out.println(customerList);
+        Assert.assertEquals(1, customerList.size());
+
+        // contact
+        customerList = this.customerService.getCustomerList("ack");
+        System.out.println(customerList);
+        Assert.assertEquals(1, customerList.size());
     }
 
     @Test
@@ -34,8 +45,4 @@ public class CustomerServiceTest {
         Assert.assertNotNull(customer);
     }
 
-    @Test
-    public void createCustomerTest() {
-        Map<String, Object> fieldMap = new
-    }
 }
