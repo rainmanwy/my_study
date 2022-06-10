@@ -1,8 +1,8 @@
-package com.github.rainmanwy.second_demo.service;
+package com.github.rainmanwy.third_demo.service;
 
-import com.github.rainmanwy.second_demo.helper.DatabaseHelper;
-import com.github.rainmanwy.second_demo.model.Customer;
-import com.github.rainmanwy.second_demo.util.StringUtil;
+import com.github.rainmanwy.third_demo.helper.DatabaseHelper;
+import com.github.rainmanwy.third_demo.model.Customer;
+import com.github.rainmanwy.third_demo.util.StringUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

@@ -1,4 +1,4 @@
-package com.github.rainmanwy.second_demo.controller;
+package com.github.rainmanwy.third_demo.controller;
 
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;

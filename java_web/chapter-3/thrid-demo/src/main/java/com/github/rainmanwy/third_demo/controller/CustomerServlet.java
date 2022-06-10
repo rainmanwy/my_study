@@ -1,7 +1,7 @@
-package com.github.rainmanwy.second_demo.controller;
+package com.github.rainmanwy.third_demo.controller;
 
-import com.github.rainmanwy.second_demo.model.Customer;
-import com.github.rainmanwy.second_demo.service.CustomerService;
+import com.github.rainmanwy.third_demo.model.Customer;
+import com.github.rainmanwy.third_demo.service.CustomerService;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;

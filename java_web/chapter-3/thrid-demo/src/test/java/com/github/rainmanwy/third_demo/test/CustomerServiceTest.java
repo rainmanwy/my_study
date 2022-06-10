@@ -1,21 +1,17 @@
-package com.github.rainmanwy.second_demo.test;
+package com.github.rainmanwy.third_demo.test;
 
-import com.github.rainmanwy.second_demo.helper.DatabaseHelper;
-import com.github.rainmanwy.second_demo.model.Customer;
-import com.github.rainmanwy.second_demo.service.CustomerService;
+import com.github.rainmanwy.third_demo.helper.DatabaseHelper;
+import com.github.rainmanwy.third_demo.model.Customer;
+import com.github.rainmanwy.third_demo.service.CustomerService;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Handler;
 
 
 public class CustomerServiceTest {

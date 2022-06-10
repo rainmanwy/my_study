@@ -1,7 +1,7 @@
-package com.github.rainmanwy.second_demo.helper;
+package com.github.rainmanwy.smart.helper;
 
-import com.github.rainmanwy.second_demo.util.CollectionUtil;
-import com.github.rainmanwy.second_demo.util.PropsUtil;
+import com.github.rainmanwy.smart.util.CollectionUtil;
+import com.github.rainmanwy.smart.util.PropsUtil;
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.apache.commons.dbutils.handlers.BeanHandler;
 import org.apache.commons.dbutils.handlers.MapListHandler;
@@ -12,7 +12,6 @@ import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.*;
 
