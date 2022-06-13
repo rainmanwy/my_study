@@ -20,6 +20,8 @@
             <groupId>com.github.rainmanwy</groupId>
             <artifactId>smart-framework</artifactId>
             <version>1.0.0</version>
+            <scope>system</scope>
+            <systemPath>D:/m2/com/github/rainmanwy/smart-framework/1.0.0/smart-framework-1.0.0.jar</systemPath>
         </dependency>
         <!--  slf4j    -->
         <dependency>

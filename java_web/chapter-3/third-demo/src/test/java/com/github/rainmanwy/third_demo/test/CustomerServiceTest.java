@@ -1,6 +1,6 @@
 package com.github.rainmanwy.third_demo.test;
 
-import com.github.rainmanwy.third_demo.helper.DatabaseHelper;
+import com.github.rainmanwy.smart.helper.DatabaseHelper;
 import com.github.rainmanwy.third_demo.model.Customer;
 import com.github.rainmanwy.third_demo.service.CustomerService;
 import org.junit.Assert;

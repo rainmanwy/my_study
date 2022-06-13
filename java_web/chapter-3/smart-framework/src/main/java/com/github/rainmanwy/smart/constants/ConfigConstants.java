@@ -2,7 +2,7 @@ package com.github.rainmanwy.smart.constants;
 
 public interface ConfigConstants {
 
-    String CONFIG_FILE = "smart.properties.bak";
+    String CONFIG_FILE = "smart.properties";
 
     String JDBC_DRIVER = "smart.framework.jdbc.driver";
     String JDBC_URL = "smart.framework.jdbc.url";

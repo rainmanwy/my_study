@@ -25,11 +25,10 @@ public final class DatabaseHelper {
     private static final BasicDataSource DATA_SOURCE;
 
     static {
-        Properties conf = PropsUtil.loadProps("config.properties");
-        String driver = conf.getProperty("jdbc.driver");
-        String url = conf.getProperty("jdbc.url");
-        String username = conf.getProperty("jdbc.username");
-        String password = conf.getProperty("jdbc.password");
+        String driver = ConfigHelper.getJdbcDriver();
+        String url = ConfigHelper.getJdbcUrl();
+        String username = ConfigHelper.getJdbcUsername();
+        String password = ConfigHelper.getJdbcPassword();
 
         DATA_SOURCE = new BasicDataSource();
         DATA_SOURCE.addConnectionProperty("collation", "TERRITORY_BASED:PRIMARY");

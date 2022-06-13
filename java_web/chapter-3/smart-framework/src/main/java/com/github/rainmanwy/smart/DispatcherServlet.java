@@ -4,11 +4,10 @@ import com.github.rainmanwy.smart.bean.Data;
 import com.github.rainmanwy.smart.bean.Handler;
 import com.github.rainmanwy.smart.bean.Param;
 import com.github.rainmanwy.smart.bean.View;
-import com.github.rainmanwy.smart.helper.BeanHelper;
-import com.github.rainmanwy.smart.helper.ConfigHelper;
-import com.github.rainmanwy.smart.helper.ControllerHelper;
-import com.github.rainmanwy.smart.helper.IocHelper;
+import com.github.rainmanwy.smart.helper.*;
 import com.github.rainmanwy.smart.util.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletContext;
@@ -27,6 +26,7 @@ import java.util.Map;
 
 @WebServlet(urlPatterns = "/*", loadOnStartup = 0)
 public class DispatcherServlet extends HttpServlet {
+    private static final Logger LOGGER = LoggerFactory.getLogger(DispatcherServlet.class);
 
     @Override
     public void init(ServletConfig servletConfig) throws ServletException {
@@ -36,14 +36,19 @@ public class DispatcherServlet extends HttpServlet {
         jspServlet.addMapping(ConfigHelper.getJspPath() + "*");
         ServletRegistration defaultServlet = context.getServletRegistration("default");
         defaultServlet.addMapping(ConfigHelper.getAssetPath() + "*");
+        LOGGER.info("Smart Framework Init");
+        LOGGER.info("Controllers: {}", ClassHelper.getControllerClassSet());
+        LOGGER.info("Services: {}", ClassHelper.getServiceClassSet());
     }
 
     @Override
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String requestMethod = req.getMethod().toLowerCase();
         String requestPath = req.getPathInfo();
+        LOGGER.info("Smart Framework do service: {},  {}", requestMethod, requestPath);
         //get controller bean
         Handler handler = ControllerHelper.getHandler(requestMethod, requestPath);
+        LOGGER.info("handler: {}", handler);
         if (handler != null) {
             Class<?> controllerClass = handler.getControllerClass();
             Object controllerBean = BeanHelper.getBean(controllerClass);

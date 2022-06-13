@@ -1,14 +1,17 @@
 package com.github.rainmanwy.third_demo.service;
 
-import com.github.rainmanwy.third_demo.helper.DatabaseHelper;
-import com.github.rainmanwy.third_demo.model.Customer;
-import com.github.rainmanwy.third_demo.util.StringUtil;
+import com.github.rainmanwy.smart.annotation.Service;
+import com.github.rainmanwy.smart.helper.DatabaseHelper;
+import com.github.rainmanwy.smart.util.StringUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.List;
 import java.util.Map;
 
+import com.github.rainmanwy.third_demo.model.Customer;
+
+@Service
 public class CustomerService {
     private static final Logger LOGGER = LoggerFactory.getLogger(CustomerService.class);
     /**

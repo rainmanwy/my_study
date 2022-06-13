@@ -1,5 +1,6 @@
 package com.github.rainmanwy.smart.bean;
 
+import java.util.HashMap;
 import java.util.Map;
 
 public class View {
@@ -9,6 +10,7 @@ public class View {
 
     public View(String path) {
         this.path = path;
+        model = new HashMap<String, Object>();
     }
 
     public View addModel(String key, Object value) {

@@ -5,6 +5,8 @@ import com.github.rainmanwy.smart.bean.Handler;
 import com.github.rainmanwy.smart.bean.Request;
 import com.github.rainmanwy.smart.util.CollectionUtil;
 import org.apache.commons.lang3.ArrayUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.Method;
 import java.util.HashMap;
@@ -12,6 +14,7 @@ import java.util.Map;
 import java.util.Set;
 
 public final class ControllerHelper {
+    private static final Logger LOGGER = LoggerFactory.getLogger(ControllerHelper.class);
     private static final Map<Request, Handler> ACTION_MAP = new HashMap<Request, Handler>();
 
     static {
@@ -24,8 +27,10 @@ public final class ControllerHelper {
                         if (method.isAnnotationPresent(Action.class)) {
                             Action action = method.getAnnotation(Action.class);
                             String mapping = action.value();
-                            if (mapping.matches("\\w+:\\w*")) {
+                            LOGGER.info("mapping: {}, matched: {}", action.value(), mapping.matches("\\w+:/\\w*"));
+                            if (mapping.matches("\\w+:/\\w*")) {
                                 String[] array = mapping.split(":");
+                                LOGGER.info("ControllerHelper: get actions, {}", array);
                                 if (ArrayUtils.isNotEmpty(array) && array.length == 2) {
                                     // 获取请求方法与请求路径
                                     String requestMethod = array[0];
@@ -41,6 +46,7 @@ public final class ControllerHelper {
                 }
             }
         }
+        LOGGER.info("ControllerHelper: {}", ACTION_MAP);
     }
 
     public static Handler getHandler(String requestMethod, String requestPath) {
