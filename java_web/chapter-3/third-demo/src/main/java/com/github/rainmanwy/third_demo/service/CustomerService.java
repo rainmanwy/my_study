@@ -1,6 +1,7 @@
 package com.github.rainmanwy.third_demo.service;
 
 import com.github.rainmanwy.smart.annotation.Service;
+import com.github.rainmanwy.smart.annotation.Transaction;
 import com.github.rainmanwy.smart.helper.DatabaseHelper;
 import com.github.rainmanwy.smart.util.StringUtil;
 import org.slf4j.Logger;
@@ -39,6 +40,7 @@ public class CustomerService {
     /**
      * create customer
      */
+    @Transaction
     public boolean createCustomer(Map<String, Object> fieldMap) {
         DatabaseHelper.insertEntity(Customer.class, fieldMap);
         return true;
@@ -47,6 +49,7 @@ public class CustomerService {
     /**
      * edit customer
      */
+    @Transaction
     public boolean editCustomer(long id, Map<String, Object> fieldMap) {
         DatabaseHelper.updateEntity(Customer.class, id, fieldMap);
         return true;
@@ -55,6 +58,7 @@ public class CustomerService {
     /**
      * delete customer
      */
+    @Transaction
     public boolean deleteCustomer(long id) {
         DatabaseHelper.deleteEntity(Customer.class, id);
         return true;
