@@ -36,6 +36,7 @@ public class DispatcherServlet extends HttpServlet {
         jspServlet.addMapping(ConfigHelper.getJspPath() + "*");
         ServletRegistration defaultServlet = context.getServletRegistration("default");
         defaultServlet.addMapping(ConfigHelper.getAssetPath() + "*");
+        UploadHelper.init(context);
         LOGGER.info("Smart Framework Init");
         LOGGER.info("Controllers: {}", ClassHelper.getControllerClassSet());
         LOGGER.info("Services: {}", ClassHelper.getServiceClassSet());
@@ -53,30 +54,19 @@ public class DispatcherServlet extends HttpServlet {
             Class<?> controllerClass = handler.getControllerClass();
             Object controllerBean = BeanHelper.getBean(controllerClass);
 
-            Map<String, Object> paramMap = new HashMap<String, Object>();
-            Enumeration<String> paramNames = req.getParameterNames();
-            while (paramNames.hasMoreElements()) {
-                String paramName = paramNames.nextElement();
-                String paramValue = req.getParameter(paramName);
-                paramMap.put(paramName, paramValue);
+            Param param;
+            if (UploadHelper.isMultipart(req)) {
+                param = UploadHelper.createParam(req);
+            } else {
+                param = RequestHelper.createParam(req);
             }
-            String body = CodecUtil.decodeURL(StreamUtil.getString(req.getInputStream()));
-            if (StringUtil.isNotEmpty(body)) {
-                String[] params = StringUtil.splitString(body, "&");
-                if (ArrayUtil.isNotEmpty(params)) {
-                    for (String param : params) {
-                        String[] array = StringUtil.splitString(param, "=");
-                        if (ArrayUtil.isNotEmpty(array) && array.length==2) {
-                            String paramName = array[0];
-                            String paramValue = array[1];
-                            paramMap.put(paramName, paramValue);
-                        }
-                    }
-                }
-            }
-            Param param = new Param(paramMap);
             Method actionMethod = handler.getActionMethod();
-            Object result = ReflectionUtil.invokeMethod(controllerBean, actionMethod, param);
+            Object result = null;
+            if (param.isEmpty()) {
+                result = ReflectionUtil.invokeMethod(controllerBean, actionMethod);
+            } else {
+                result = ReflectionUtil.invokeMethod(controllerBean, actionMethod, param);
+            }
             if (result instanceof View) {
                 View view = (View) result;
                 String path = view.getPath();

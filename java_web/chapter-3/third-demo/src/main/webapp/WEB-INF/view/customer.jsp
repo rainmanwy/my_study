@@ -18,16 +18,34 @@
         </tr>
         <c:forEach var="customer" items="${customerList}">
             <tr>
-                <td>${customer.name}</td>
+                <td><a href="${BASE}/customer_show?id=${customer.id}">${customer.name}</a></td>
                 <td>${customer.contact}</td>
                 <td>${customer.telephone}</td>
                 <td>${customer.email}</td>
                 <td>
                     <a href="${BASE}/customer_edit?id=${customer.id}">编辑</a>
-                    <a href="${BASE}/customer_delete?id=${customer.id}">删除</a>
+                    <a href="javascript:void(0);" onclick="customer_delete(${customer.id})">删除</a>
                 </td>
             </tr>
         </c:forEach>
     </table>
+
+    <h2><a href="${BASE}/customer_create">创建客户</a></h2>
+    <script src="${BASE}/asset/lib/jquery/jquery.min.js"></script>
+    <script src="${BASE}/asset/lib/jquery-form/jquery.form.min.js"></script>
+    <script type="text/javascript">
+        function customer_delete(id) {
+            $.ajax({
+                type: 'delete',
+                url: '${BASE}/customer_delete',
+                data: {id: id},
+                success: function(data) {
+                    if (data) {
+                        location.href = '${BASE}/customer';
+                    }
+                }
+            });
+        }
+    </script>
 </body>
 </html>

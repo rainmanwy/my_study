@@ -3,7 +3,10 @@ package com.github.rainmanwy.third_demo.service;
 import com.github.rainmanwy.smart.annotation.Service;
 import com.github.rainmanwy.smart.annotation.Transaction;
 import com.github.rainmanwy.smart.helper.DatabaseHelper;
+import com.github.rainmanwy.smart.helper.UploadHelper;
 import com.github.rainmanwy.smart.util.StringUtil;
+import com.github.rainmanwy.smart.bean.FileParam;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -41,8 +44,12 @@ public class CustomerService {
      * create customer
      */
     @Transaction
-    public boolean createCustomer(Map<String, Object> fieldMap) {
-        DatabaseHelper.insertEntity(Customer.class, fieldMap);
+    public boolean createCustomer(Map<String, Object> fieldMap, FileParam fileParam) {
+        boolean result = DatabaseHelper.insertEntity(Customer.class, fieldMap);
+        if (result) {
+            LOGGER.info("Upload file: ", fileParam);
+            UploadHelper.uploadFile("D:\\var\\", fileParam);
+        }
         return true;
     }
 

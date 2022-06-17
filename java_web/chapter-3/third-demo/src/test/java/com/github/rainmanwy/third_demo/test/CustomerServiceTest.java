@@ -82,7 +82,7 @@ public class CustomerServiceTest {
         mapFields.put("email", "1@mail.com");
         mapFields.put("remark", null);
 
-        boolean result = customerService.createCustomer(mapFields);
+        boolean result = customerService.createCustomer(mapFields, null);
         Assert.assertTrue(result);
 
         List<Customer> customerList = this.customerService.getCustomerList(null);
