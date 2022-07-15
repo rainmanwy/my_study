@@ -44,56 +44,62 @@ public class DispatcherServlet extends HttpServlet {
 
     @Override
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String requestMethod = req.getMethod().toLowerCase();
-        String requestPath = req.getPathInfo();
-        LOGGER.info("Smart Framework do service: {},  {}", requestMethod, requestPath);
-        //get controller bean
-        Handler handler = ControllerHelper.getHandler(requestMethod, requestPath);
-        LOGGER.info("handler: {}", handler);
-        if (handler != null) {
-            Class<?> controllerClass = handler.getControllerClass();
-            Object controllerBean = BeanHelper.getBean(controllerClass);
+        ServletHelper.init(req, resp);
+        try {
+            String requestMethod = req.getMethod().toLowerCase();
+            String requestPath = req.getPathInfo();
+            LOGGER.info("Smart Framework do service: {},  {}", requestMethod, requestPath);
+            //get controller bean
+            Handler handler = ControllerHelper.getHandler(requestMethod, requestPath);
+            LOGGER.info("handler: {}", handler);
+            if (handler != null) {
+                Class<?> controllerClass = handler.getControllerClass();
+                Object controllerBean = BeanHelper.getBean(controllerClass);
 
-            Param param;
-            if (UploadHelper.isMultipart(req)) {
-                param = UploadHelper.createParam(req);
-            } else {
-                param = RequestHelper.createParam(req);
-            }
-            Method actionMethod = handler.getActionMethod();
-            Object result = null;
-            if (param.isEmpty()) {
-                result = ReflectionUtil.invokeMethod(controllerBean, actionMethod);
-            } else {
-                result = ReflectionUtil.invokeMethod(controllerBean, actionMethod, param);
-            }
-            if (result instanceof View) {
-                View view = (View) result;
-                String path = view.getPath();
-                if (StringUtil.isNotEmpty(path)) {
-                    if (path.startsWith("/")) {
-                        resp.sendRedirect(req.getContextPath() + path);
-                    } else {
-                        Map<String, Object> model = view.getModel();
-                        for (Map.Entry<String, Object> entry : model.entrySet()) {
-                            req.setAttribute(entry.getKey(), entry.getValue());
+                Param param;
+                if (UploadHelper.isMultipart(req)) {
+                    param = UploadHelper.createParam(req);
+                } else {
+                    param = RequestHelper.createParam(req);
+                }
+                Method actionMethod = handler.getActionMethod();
+                Object result = null;
+                if (param.isEmpty()) {
+                    result = ReflectionUtil.invokeMethod(controllerBean, actionMethod);
+                } else {
+                    result = ReflectionUtil.invokeMethod(controllerBean, actionMethod, param);
+                }
+                if (result instanceof View) {
+                    View view = (View) result;
+                    String path = view.getPath();
+                    if (StringUtil.isNotEmpty(path)) {
+                        if (path.startsWith("/")) {
+                            resp.sendRedirect(req.getContextPath() + path);
+                        } else {
+                            Map<String, Object> model = view.getModel();
+                            for (Map.Entry<String, Object> entry : model.entrySet()) {
+                                req.setAttribute(entry.getKey(), entry.getValue());
+                            }
+                            req.getRequestDispatcher(ConfigHelper.getJspPath()+path).forward(req, resp);
                         }
-                        req.getRequestDispatcher(ConfigHelper.getJspPath()+path).forward(req, resp);
+                    }
+                } else if (result instanceof Data) {
+                    Data data = (Data) result;
+                    Object model = data.getModel();
+                    if (model != null) {
+                        resp.setContentType("application/json");
+                        resp.setCharacterEncoding("UTF-8");
+                        PrintWriter writer = resp.getWriter();
+                        String json = JsonUtil.toJson(model);
+                        writer.write(json);
+                        writer.flush();
+                        writer.close();
                     }
                 }
-            } else if (result instanceof Data) {
-                Data data = (Data) result;
-                Object model = data.getModel();
-                if (model != null) {
-                    resp.setContentType("application/json");
-                    resp.setCharacterEncoding("UTF-8");
-                    PrintWriter writer = resp.getWriter();
-                    String json = JsonUtil.toJson(model);
-                    writer.write(json);
-                    writer.flush();
-                    writer.close();
-                }
             }
+        } finally {
+            ServletHelper.destroy();
         }
+
     }
 }

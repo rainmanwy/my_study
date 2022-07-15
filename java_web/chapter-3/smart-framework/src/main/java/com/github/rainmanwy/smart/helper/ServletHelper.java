@@ -55,7 +55,7 @@ public final class ServletHelper {
         return (T) getRequest().getAttribute(key);
     }
 
-    public static void remoteRequestAttribute(String key) {
+    public static void removeRequestAttribute(String key) {
         getRequest().removeAttribute(key);
     }
 
